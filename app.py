@@ -4,6 +4,13 @@ import shutil
 import pandas as pd
 from AreaLite_v1_web_compatible import main
 
+import requests
+
+url = "https://github.com/swarnajis/AreaLite_Delta/blob/main/IntTOString_Para.xlsx"
+r = requests.get(url)
+with open("IntTOString_Para.xlsx", "wb") as f:
+    f.write(r.content)
+    
 UPLOAD_FOLDER = "uploads"
 OUTPUT_FOLDER = "outputs"
 
