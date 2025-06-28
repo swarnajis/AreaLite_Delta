@@ -17,18 +17,15 @@ os.makedirs(OUTPUT_FOLDER, exist_ok=True)
 @app.route("/", methods=["GET", "POST"])
 def index():
     if request.method == "POST":
-        # Save uploaded files
-        for key in request.files:
-            file = request.files[key]
-            if file.filename:
-                filepath = os.path.join(UPLOAD_FOLDER, file.filename)
-                file.save(filepath)
-                # Move specific files to working names
-                if "AREALITE_Delta" in file.filename:
-                    shutil.copy(filepath, "AREALITE_Delta.txt")
-                elif "CLI_DUMP" in file.filename:
-                    shutil.copy(filepath, "CLI_DUMP.txt")
+        # Always save uploaded files to fixed names
+        arealite_file = request.files.get("arealite_delta")
+        cli_dump_file = request.files.get("cli_dump")
 
+        if not arealite_file or not cli_dump_file:
+            return "❌ Both AREALITE_Delta.txt and CLI_DUMP.txt must be uploaded.", 400
+
+        arealite_file.save("AREALITE_Delta.txt")
+        cli_dump_file.save("CLI_DUMP.txt")
         # Ensure IntTOString_Para.xlsx exists in current directory
         if not os.path.exists("IntTOString_Para.xlsx"):
             return "❌ IntTOString_Para.xlsx not found in application directory.", 400
