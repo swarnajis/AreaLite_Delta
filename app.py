@@ -3,14 +3,7 @@ import os
 import shutil
 import pandas as pd
 from AreaLite_v1_web_compatible import main
-
-import requests
-
-url = "https://github.com/swarnajis/AreaLite_Delta/blob/main/IntTOString_Para.xlsx"
-r = requests.get(url)
-with open("IntTOString_Para.xlsx", "wb") as f:
-    f.write(r.content)
-    
+  
 UPLOAD_FOLDER = "uploads"
 OUTPUT_FOLDER = "outputs"
 
@@ -34,7 +27,7 @@ def index():
         arealite_file.save("AREALITE_Delta.txt")
         cli_dump_file.save("CLI_DUMP.txt")
         # Ensure IntTOString_Para.xlsx exists in current directory
-        if not os.path.exists("IntTOString_Para.xlsx"):
+        if not os.path.exists("inttostring_para.xlsx"):
             return "❌ IntTOString_Para.xlsx not found in application directory.", 400
 
         # Run your main script logic
