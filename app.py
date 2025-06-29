@@ -41,8 +41,8 @@ def index():
         except Exception as e:
             return f"❌ An unexpected error occurred: {str(e)}", 500    
         # Move results to output directory
-        shutil.copy("TEMP.xlsx", os.path.join(OUTPUT_FOLDER, "TEMP.xlsx"))
-        shutil.copy("AREALITE_Delta_Script.txt", os.path.join(OUTPUT_FOLDER, "AREALITE_Delta_Script.txt"))
+        shutil.copy("TEMP.xlsx", os.path.join("/tmp", "TEMP.xlsx"))
+        shutil.copy("AREALITE_Delta_Script.txt", os.path.join("/tmp", "AREALITE_Delta_Script.txt"))
 
         return redirect(url_for("results"))
 
