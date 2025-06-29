@@ -27,6 +27,8 @@ def index():
         arealite_file.save("AREALITE_Delta.txt")
         cli_dump_file.save("CLI_DUMP.txt")
         # Ensure IntTOString_Para.xlsx exists in current directory
+     print("📂 Files in directory:", os.listdir())
+
         if not os.path.exists("IntTOString_Para.xlsx"):
             return "❌ IntTOString_Para.xlsx not found in application directory.", 400
 
