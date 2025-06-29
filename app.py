@@ -2,11 +2,10 @@ from flask import Flask, render_template, request, send_from_directory, redirect
 import os
 import shutil
 import pandas as pd
-from AreaLite_v1_web_compatible import main
-  
+from AreaLite_v1 import main  # Assumes your script's logic is in a callable main()
+
 UPLOAD_FOLDER = "uploads"
 OUTPUT_FOLDER = "/tmp"
-
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
@@ -27,22 +26,22 @@ def index():
 
         arealite_file.save("AREALITE_Delta.txt")
         cli_dump_file.save("CLI_DUMP.txt")
-        # Ensure IntTOString_Para.xlsx exists in current directory
-     print("📂 Files in directory:", os.listdir())
 
+        # Ensure IntTOString_Para.xlsx exists in current directory
         if not os.path.exists("IntTOString_Para.xlsx"):
             return "❌ IntTOString_Para.xlsx not found in application directory.", 400
 
-        # Run your main script logic
+        # Run your main script logic with error handling
         try:
             main()
         except pd.errors.EmptyDataError:
             return "❌ AREALITE_Delta.txt appears to be empty or malformed. Please upload a valid file.", 400
         except Exception as e:
-            return f"❌ An unexpected error occurred: {str(e)}", 500    
+            return f"❌ An unexpected error occurred: {str(e)}", 500
+
         # Move results to output directory
-        shutil.copy("TEMP.xlsx", os.path.join("/tmp", "TEMP.xlsx"))
-        shutil.copy("AREALITE_Delta_Script.txt", os.path.join("/tmp", "AREALITE_Delta_Script.txt"))
+        shutil.copy("TEMP.xlsx", os.path.join(OUTPUT_FOLDER, "TEMP.xlsx"))
+        shutil.copy("AREALITE_Delta_Script.txt", os.path.join(OUTPUT_FOLDER, "AREALITE_Delta_Script.txt"))
 
         return redirect(url_for("results"))
 
@@ -56,5 +55,4 @@ def results():
 def download_file(filename):
     return send_from_directory("/tmp", filename, as_attachment=True)
 
-#if __name__ == "__main__":
-#    app.run(host="0.0.0.0", port=40000)
+# Removed app.run() since Render uses Gunicorn for production server
