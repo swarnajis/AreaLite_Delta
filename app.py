@@ -5,7 +5,8 @@ import pandas as pd
 from AreaLite_v1_web_compatible import main
   
 UPLOAD_FOLDER = "uploads"
-OUTPUT_FOLDER = "outputs"
+OUTPUT_FOLDER = "/tmp"
+
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
